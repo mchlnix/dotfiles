@@ -1,0 +1,77 @@
+#!/usr/bin/python
+
+from sys import exit, argv, stdin
+
+USAGE = "Usage: limit (-l|-u) [-s] limit"
+
+default = False
+default_value = 0
+
+lower = False
+upper = False
+
+silent = False
+
+try:
+    index = argv.index("-d")
+    default = True
+    default_value = argv[index+1]
+except ValueError:
+    pass
+
+try:
+    argv.index("-l")
+    lower = True
+    upper = False
+except ValueError:
+    pass
+
+try:
+    argv.index("-u")
+    upper = True
+    lower = False
+except ValueError:
+    upper = False
+
+try:
+    argv.index("-s")
+    silent = True
+except ValueError:
+    pass
+
+try:
+    limit = int(argv[-1])
+except:
+    print( USAGE )
+    exit(1)
+
+if lower == upper:
+    print( USAGE )
+    exit(1)
+
+try:
+    _input = stdin.read()	
+    number = int( _input )
+except:
+    if default:
+        print(default_value)
+        exit(default_value)
+
+    if not silent:
+        print( "Problems with your number: " + _input )
+    
+    exit(1)
+
+if lower:
+    if number < limit:
+	out = limit
+    else:
+	out = number
+else:
+    if number > limit:
+	out = limit
+    else:
+	out = number
+
+print(out)
+exit(out)
