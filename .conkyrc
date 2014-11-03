@@ -1,0 +1,64 @@
+alignment top_right
+background yes 
+border_inner_margin 5
+border_outer_margin 1
+border_width 0
+cpu_avg_samples 4
+default_gauge_size 10 10
+default_color white 
+default_outline_color white
+default_shade_color white
+double_buffer yes
+draw_borders no
+draw_graph_borders yes
+draw_outline no
+draw_shades no
+use_xft yes
+#xftfont DejaVu Sans Mono:size=12
+xftfont Monospace:size=12
+gap_x 7
+gap_y 30
+minimum_size 5 5
+net_avg_samples 2
+no_buffers yes
+out_to_console no
+out_to_stderr no
+extra_newline no
+own_window yes
+own_window_class conky-semi
+own_window_transparent no
+own_window_type normal
+stippled_borders 0
+update_interval 1
+uppercase no
+use_spacer none
+show_graph_scale no
+show_graph_range no
+
+#Used for semitransparency. own_window_transparency must be off (not commented out)
+
+own_window_argb_visual yes
+own_window_argb_value 00
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+
+TEXT
+${color darkgrey}File systems:
+   / $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+
+── Prozesse ──${color lightgrey} $running_processes/$processes $color${voffset -1}$hr
+${alignc} ${color darkgrey}Name                PID  % CPU  % MEM
+${alignc} ${color lightgrey} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+${alignc} ${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+${alignc} ${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
+${alignc} ${color lightgrey} ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
+
+${color darkgrey}${alignc}Uptime:$color $uptime${if_empty ${battery_time BAT1}}${else} - ${color darkgrey}Batt: $color${if_match "$acpiacadapter" == "off-line"}${if_match ${battery_percent BAT1} < 20}${color red}${else}${if_match ${battery_percent BAT1} < 70}${color yellow}${else}${color green}${endif}${endif}${endif}${battery_time BAT1} ${if_match "$acpiacadapter" == "on-line"}▲${else}▼${endif}${endif}
+$color
+── CPU ──${color lightgrey} ${cpu cpu0}% $color––${color lightgrey} ${freq_g 1}$color –– ${color lightgrey}${freq_g 2} $color${voffset -1}$hr
+${cpugraph -t}
+── RAM ──${color lightgrey} $memperc% $color${voffset -1}$hr
+${memgraph -t}
+── NET ── ${color lightgrey}${exec ping -c 1 -W 1 8.8.8.8|tail -n 1|grep -o "[0-9]*"|head -n 1}ms $color── ${color lightgrey}${upspeed wlan0}$color── ${color lightgrey}${downspeed wlan0}$color${voffset -1}$hr
+${execgraph -t ping -c 1 -W 1 8.8.8.8|tail -n 1|grep -o "[0-9]*"|head -n 1|limit -u -s -d 100 100}
+${color white} ${alignc} ${time %d.%m.%y %H:%M:%S}
