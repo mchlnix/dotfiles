@@ -82,12 +82,9 @@ __prompt_command() {
             EXIT="\[\e[1;31m\]${EXIT}\[\e[1;37m\]"
     fi
 
-    local BRANCH=""
-    if [ -d "$(pwd)/.git" ]; then
-           BRANCH="$(git branch | grep '\*' | cut -d ' ' -f2) "
+    local BRANCH="$(git branch 2>/dev/null| grep '\*' | cut -d ' ' -f2)"
+    [ -n "$BRANCH" ] && BRANCH="b:\[\e[1;32m\]${BRANCH}\[\e[1;37m\]"       
 
-           BRANCH="b:\[\e[1;32m\]${BRANCH}\[\e[1;37m\]"
-    fi
 	PS1='\[\e[1;37m\]'
 	PS1+='[\t] '
        	PS1+="${EXIT}"
