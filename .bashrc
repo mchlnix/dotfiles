@@ -83,7 +83,7 @@ __prompt_command() {
     fi
 
     local BRANCH="$(git branch 2>/dev/null| grep '\*' | cut -d ' ' -f2)"
-    [ -n "$BRANCH" ] && BRANCH="b:\[\e[1;32m\]${BRANCH}\[\e[1;37m\]"       
+    [ -n "$BRANCH" ] && BRANCH="b:\[\e[1;32m\]${BRANCH}\[\e[1;37m\] "
 
 	PS1='\[\e[1;37m\]'
 	PS1+='[\t] '
