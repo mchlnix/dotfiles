@@ -77,12 +77,24 @@ fi
 
 __prompt_command() {
 	local EXIT="$?"
+    
+    if [ "0" -lt "$EXIT" ]; then
+            EXIT="\[\e[1;31m\]${EXIT}\[\e[1;37m\]"
+    fi
+
+    local BRANCH=""
+    if [ -d "$(pwd)/.git" ]; then
+           BRANCH="$(git branch | grep '\*' | cut -d ' ' -f2) "
+
+           BRANCH="b:\[\e[1;32m\]${BRANCH}\[\e[1;37m\]"
+    fi
 	PS1='\[\e[1;37m\]'
 	PS1+='[\t] '
        	PS1+="${EXIT}"
 	PS1+='/'
 	PS1+='\j '
        	PS1+='\w/ '
+    PS1+="${BRANCH}"
 	PS1+='\[\033[00;37m\]'
 	PS1+='\$ '
 	PS1+='\n> '
