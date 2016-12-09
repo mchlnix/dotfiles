@@ -1,9 +1,19 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+set hlsearch
+set foldmethod=syntax
+set laststatus=2              " always show statusline
+set noshowmode                " hides Insert from Command Line
+
+autocmd BufWinEnter * let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)'))
+
 " set noswapfile
 set number
 set scrolloff=100
+set tabstop=4
+set expandtab
+set smartindent
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -22,6 +32,10 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'smancill/conky-syntax.vim'
+Plugin 'jeroenbourgois/vim-actionscript'
+Plugin 'vim-airline/vim-airline'
+Plugin 'majutsushi/tagbar'
+Plugin 'mgedmin/chelper.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -37,3 +51,6 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+"
+let g:jedi#popup_select_first = "0"
+let g:airline#extensions#tagbar#enabled = 1

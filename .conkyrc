@@ -1,5 +1,5 @@
 alignment top_right
-background yes 
+#background yes 
 border_inner_margin 5
 border_outer_margin 1
 border_width 0
@@ -8,7 +8,7 @@ default_gauge_size 10 10
 default_color white 
 default_outline_color white
 default_shade_color white
-double_buffer yes
+#double_buffer yes
 draw_borders no
 draw_graph_borders yes
 draw_outline no
@@ -26,8 +26,10 @@ out_to_stderr no
 extra_newline no
 own_window yes
 own_window_class conky-semi
-own_window_transparent no
-own_window_type normal
+own_window_transparent yes
+#own_window_transparent no
+own_window_type desktop
+#own_window_type normal
 stippled_borders 0
 update_interval 1
 uppercase no
@@ -44,7 +46,8 @@ own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 
 TEXT
 ${color darkgrey}File systems:
-   / $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+${color darkgrey}   /     $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+${color darkgrey}   /home $color${fs_used /home}/${fs_size /home} ${fs_bar 6 /home}
 
 ── Prozesse ──${color lightgrey} $running_processes/$processes $color${voffset -1}$hr
 ${alignc} ${color darkgrey}Name                PID  % CPU  % MEM
@@ -60,5 +63,5 @@ ${cpugraph -t}
 ── RAM ──${color lightgrey} $memperc% $color${voffset -1}$hr
 ${memgraph -t}
 ── NET ── ${color lightgrey}${exec ping -c 1 -W 1 8.8.8.8|tail -n 1|grep -o "[0-9]*"|head -n 1}ms $color── ${color lightgrey}${upspeed wlan0}$color── ${color lightgrey}${downspeed wlan0}$color${voffset -1}$hr
-${execgraph -t ping -c 1 -W 1 8.8.8.8|tail -n 1|grep -o "[0-9]*"|head -n 1|limit -u -s -d 100 100}
+${execgraph "ping -c 1 -W 1 8.8.8.8|tail -n 1|grep -o '[0-9]*'|head -n 1|limit 100" }
 ${color white} ${alignc} ${time %d.%m.%y %H:%M:%S}

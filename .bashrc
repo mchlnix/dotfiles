@@ -2,8 +2,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-export PATH=${PATH}:~/Dokumente/Programme/Android/.android-sdk/tools
-export PATH=${PATH}:~/Dokumente/Programme/Android/.android-sdk/platform-tools
 export PATH=${PATH}:~/Dokumente/Programme/Flash/.flex/bin
 export PATH=${PATH}:~/Dokumente/Skripte
 export MOZ_PLUGIN_PATH=~/.mozilla/plugins
@@ -75,7 +73,22 @@ fi
 #    ;;
 #esac
 
-PS1="\[\033[01;37m\][\t] \j \w/\[\033[00;37m\]\n> "
+#PS1="\[\033[01;37m\][\t] \j \w/\[\033[00;37m\]\n> "
+
+__prompt_command() {
+	local EXIT="$?"
+	PS1='\[\e[1;37m\]'
+	PS1+='[\t] '
+       	PS1+="${EXIT}"
+	PS1+='/'
+	PS1+='\j '
+       	PS1+='\w/ '
+	PS1+='\[\033[00;37m\]'
+	PS1+='\$ '
+	PS1+='\n> '
+}
+
+export PROMPT_COMMAND=__prompt_command
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -108,6 +121,7 @@ alias pnote='notebook --no-browser --notebook-dir="/home/michael/Dokumente/Noteb
 alias stopbit="ps auxfww|grep backintime|awk '{print $2}'|xargs sudo kill -9"
 alias rm="rm -v"
 alias cp="cp -v"
+alias mv="mv -v"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -128,3 +142,5 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+alias android-connect="mtpfs -o allow_other /media/Nexus6"
+alias android-disconnect="fusermount -u /media/Nexus6"
