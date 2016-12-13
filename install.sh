@@ -30,6 +30,26 @@ while [ -n "$1" ]; do
         fi
         if [ "-v" == "$1" ]; then
                 install ~/.vimrc ".vimrc"
+
+                if [ ! -d "~/.vim/bundle/Vundle.vim" ]; then
+                        echo -n "Vundle is not installed. Download it now? [Y/n]"
+                        read DECISION
+
+                        case $DECISION in
+                                [nN]*)
+                                        echo ""
+                                        echo "Not installed."
+                                        ;;
+                                *)
+                                        echo "git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim"
+                                        if git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim; then
+                                                vim -S <(echo -e "VundleInstall \n q \n q")
+                                        else
+                                                "git clone failed."
+                                        fi
+                                        ;;
+                        esac
+                fi
                 shift
         fi
 done
