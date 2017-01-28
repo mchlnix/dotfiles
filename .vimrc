@@ -13,6 +13,7 @@ autocmd BufWinEnter * let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v
 set number
 set scrolloff=100
 set tabstop=4
+set shiftwidth=4
 set expandtab
 set smartindent
 
