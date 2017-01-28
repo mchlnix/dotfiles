@@ -60,7 +60,7 @@ ${color darkgrey}${alignc}Uptime:$color $uptime${if_empty ${battery_time BAT1}}$
 $color
 ── CPU ──${color lightgrey} ${cpu cpu0}% $color––${color lightgrey} ${freq_g 1}$color –– ${color lightgrey}${freq_g 2} $color${voffset -1}$hr
 ${cpugraph -t}
-── RAM ──${color lightgrey} $memperc% $color──${color lightgrey} $mem $color──${color lightgrey} $cached $color${voffset -1}$hr
+── RAM ──${color lightgrey} $memperc% $color──${color lightgrey} $mem $color──${color lightgrey} $memeasyfree $color${voffset -1}$hr
 ${memgraph -t}
 ── NET ── ${color lightgrey}${exec ping -c 1 -W 1 8.8.8.8|tail -n 1|grep -o "[0-9]*"|head -n 1}ms $color── ${color lightgrey}${upspeed wlan0}$color── ${color lightgrey}${downspeed wlan0}$color${voffset -1}$hr
 ${execgraph "ping -c 1 -W 1 8.8.8.8|tail -n 1|grep -o '[0-9]*'|head -n 1|limit 100" }
