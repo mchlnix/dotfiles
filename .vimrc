@@ -5,6 +5,9 @@ set hlsearch
 set foldmethod=syntax
 set laststatus=2              " always show statusline
 set noshowmode                " hides Insert from Command Line
+if exists('+colorcolumn')
+    set colorcolumn=80
+endif
 syntax on
 
 autocmd BufWinEnter * let &foldlevel = max(map(range(1, line('$')), 'foldlevel(v:val)'))
