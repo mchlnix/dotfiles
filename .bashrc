@@ -4,8 +4,6 @@
 
 export WINEARCH=win32
 
-export PATH=${PATH}:~/Dokumente/Programme/Flash/.flex/bin
-export PATH=${PATH}:~/Dokumente/Skripte
 export MOZ_PLUGIN_PATH=~/.mozilla/plugins
 
 # If not running interactively, don't do anything
@@ -78,13 +76,13 @@ fi
 #PS1="\[\033[01;37m\][\t] \j \w/\[\033[00;37m\]\n> "
 
 __prompt_command() {
+	local EXIT="$?"
+
     local C_RED="\[\e[1;31m\]"
     local C_YELLOW="\[\e[1;33m\]"
     local C_GREEN="\[\e[1;32m\]"
     local C_BLUE="\[\e[1;34m\]"
 
-	local EXIT="$?"
-    
     if [ "0" -lt "$EXIT" ]; then
             EXIT="${C_RED}${EXIT}\[\e[1;37m\]"
     fi
@@ -105,7 +103,8 @@ __prompt_command() {
     [ -n "$BRANCH" ] && BRANCH="b:${BRANCH_COLOR}${BRANCH}\[\e[1;37m\] "
 
     local JOBS="\j "
-    [ "0" -lt "$(jobs | wc -l)" ] && JOBS="${C_BLUE}${JOBS}\[\e[1;37m\]"
+	# only count unfinished jobs, e.g "[1]+ ..."
+    [ "0" -lt "$(jobs | grep '^\[[0-9]\+\]+' | wc -l)" ] && JOBS="${C_BLUE}${JOBS}\[\e[1;37m\]"
     
 	PS1='\[\e[1;37m\]'
 	PS1+='[\t] '
@@ -173,5 +172,3 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-alias android-connect="mtpfs -o allow_other /media/Nexus6"
-alias android-disconnect="fusermount -u /media/Nexus6"
