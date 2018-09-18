@@ -2,6 +2,8 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+export WINEARCH=win32
+
 export PATH=${PATH}:~/Dokumente/Programme/Flash/.flex/bin
 export PATH=${PATH}:~/Dokumente/Skripte
 export MOZ_PLUGIN_PATH=~/.mozilla/plugins
@@ -76,20 +78,40 @@ fi
 #PS1="\[\033[01;37m\][\t] \j \w/\[\033[00;37m\]\n> "
 
 __prompt_command() {
+    local C_RED="\[\e[1;31m\]"
+    local C_YELLOW="\[\e[1;33m\]"
+    local C_GREEN="\[\e[1;32m\]"
+    local C_BLUE="\[\e[1;34m\]"
+
 	local EXIT="$?"
     
     if [ "0" -lt "$EXIT" ]; then
-            EXIT="\[\e[1;31m\]${EXIT}\[\e[1;37m\]"
+            EXIT="${C_RED}${EXIT}\[\e[1;37m\]"
+    fi
+
+    BRANCH_COLOR=${C_GREEN}
+
+    STATUS="$(git status 2>/dev/null|grep ":")"
+
+    if [ -n "$STATUS" ]; then
+            if echo "$STATUS" | grep "Änderungen" 1>/dev/null; then
+                BRANCH_COLOR="${C_RED}"
+            elif echo "$STATUS" | grep "Unversionierte Dateien:" 1>/dev/null; then
+                BRANCH_COLOR="${C_YELLOW}"
+            fi
     fi
 
     local BRANCH="$(git branch 2>/dev/null| grep '\*' | cut -d ' ' -f2)"
-    [ -n "$BRANCH" ] && BRANCH="b:\[\e[1;32m\]${BRANCH}\[\e[1;37m\] "
+    [ -n "$BRANCH" ] && BRANCH="b:${BRANCH_COLOR}${BRANCH}\[\e[1;37m\] "
 
+    local JOBS="\j "
+    [ "0" -lt "$(jobs | wc -l)" ] && JOBS="${C_BLUE}${JOBS}\[\e[1;37m\]"
+    
 	PS1='\[\e[1;37m\]'
 	PS1+='[\t] '
        	PS1+="${EXIT}"
 	PS1+='/'
-	PS1+='\j '
+	PS1+="${JOBS}"
        	PS1+='\w/ '
     PS1+="${BRANCH}"
 	PS1+='\[\033[00;37m\]'
