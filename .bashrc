@@ -89,12 +89,12 @@ __prompt_command() {
 
     BRANCH_COLOR=${C_GREEN}
 
-    STATUS="$(git status 2>/dev/null|grep ":")"
+    STATUS="$(git status --porcelain 2>/dev/null)"
 
     if [ -n "$STATUS" ]; then
-            if echo "$STATUS" | grep "Änderungen" 1>/dev/null; then
+            if echo "$STATUS" | grep -v "^??" 1>/dev/null; then
                 BRANCH_COLOR="${C_RED}"
-            elif echo "$STATUS" | grep "Unversionierte Dateien:" 1>/dev/null; then
+            elif echo "$STATUS" | grep "^??" 1>/dev/null; then
                 BRANCH_COLOR="${C_YELLOW}"
             fi
     fi
@@ -144,14 +144,11 @@ alias p='ping 8.8.8.8'
 alias pse='echo "UID        PID  PPID  C STIME TTY          TIME CMD";ps -ef|grep'
 alias upd='sudo apt-get update'
 alias upg='sudo apt-get upgrade'
-alias notebook='ipython notebook'
-alias pdf='evince'
-alias isdown='isup'
-alias pnote='notebook --no-browser --notebook-dir="/home/michael/Dokumente/Notebooks/iPython"'
-alias stopbit="ps auxfww|grep backintime|awk '{print $2}'|xargs sudo kill -9"
 alias rm="rm -v"
 alias cp="cp -v"
 alias mv="mv -v"
+
+alias af="apt-file search"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
